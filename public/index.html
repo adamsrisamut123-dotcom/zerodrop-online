@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#090f1b">
+  <meta name="description" content="ZeroDrop Online — ส่งไฟล์ถึงกันผ่านอินเทอร์เน็ตด้วยห้องชั่วคราวและ PIN โดยไม่ต้องติดตั้งแอป">
+  <title>ZeroDrop Online · Share files anywhere</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <div class="aurora one"></div><div class="aurora two"></div>
+  <div class="shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="ZeroDrop Online home"><span class="mark">↗</span><span>Zero<span class="accent">Drop</span><small>ONLINE</small></span></a>
+      <div class="header-right"><span class="online-dot"></span><span>Secure room sharing</span><span class="header-version">BETA v0.3</span></div>
+    </header>
+    <main>
+      <section class="hero" id="hero">
+        <div class="hero-copy"><div class="eyebrow"><span class="spark">✦</span> THE SIMPLEST WAY TO SHARE</div>
+          <h1>Send files.<br><em>Not complications.</em></h1>
+          <p>ส่งไฟล์ระหว่างมือถือกับคอมจากที่ไหนก็ได้ เพียงสร้างห้อง แชร์รหัสและ PIN แล้วเริ่มส่งได้ทันที ไม่มีแอป ไม่ต้องสมัครสมาชิก</p>
+          <div class="hero-pills"><span>✧ ไม่ต้องสมัครสมาชิก</span><span>◎ ใช้งานได้ทุกอุปกรณ์</span><span>◷ ห้องหมดอายุอัตโนมัติ</span></div>
+        </div>
+        <div class="hero-art" aria-hidden="true"><div class="orbit orbit1"></div><div class="orbit orbit2"></div><div class="art-device phone">▯<small>PHONE</small></div><div class="art-bolt">⇄</div><div class="art-device laptop">▣<small>COMPUTER</small></div><div class="art-label">CONNECTED WORLDWIDE</div></div>
+      </section>
+      <section id="landing" class="landing-grid" aria-label="Create or join a room">
+        <article class="panel create-panel">
+          <div class="panel-icon turquoise">↗</div><div class="panel-tag">01 · START HERE</div>
+          <h2>สร้างห้องของคุณ</h2><p>รับลิงก์ QR Code และรหัส PIN เพื่อแชร์ไฟล์กับคนที่คุณเลือก</p>
+          <div class="feature-line"><span>✓</span> ส่งไฟล์ได้ทั้งสองทาง</div><div class="feature-line"><span>✓</span> ไม่ต้องใช้บัญชีผู้ใช้</div><div class="feature-line"><span>✓</span> ห้องอยู่ชั่วคราวเพื่อความเป็นส่วนตัว</div>
+          <div class="create-lock hidden" id="createLock"><label for="createKey">ROOM CREATION KEY</label><input type="password" id="createKey" placeholder="รหัสเจ้าของเว็บไซต์" autocomplete="off"><p>เฉพาะผู้มีรหัสนี้จึงสร้างห้องใหม่ได้</p></div>
+          <button class="button primary wide" id="createBtn">สร้างห้องใหม่ <span>↗</span></button>
+        </article>
+        <article class="panel join-panel">
+          <div class="panel-icon purple">⌁</div><div class="panel-tag">02 · HAVE AN INVITE?</div>
+          <h2>เข้าร่วมห้อง</h2><p>กรอกรหัสห้องและ PIN ที่เจ้าของห้องส่งให้คุณ</p>
+          <form id="joinForm" autocomplete="off">
+            <label for="joinCode">ROOM CODE</label><input id="joinCode" name="room" maxlength="8" placeholder="เช่น 7D4MKT8P" required spellcheck="false" autocapitalize="characters">
+            <label for="joinPin">SECURITY PIN</label><input id="joinPin" name="pin" type="text" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="ตัวเลข 6 หลัก" required spellcheck="false">
+            <button class="button secondary wide" type="submit">เข้าร่วมห้อง <span>→</span></button>
+          </form>
+        </article>
+      </section>
+      <section id="roomView" class="room hidden" aria-live="polite">
+        <div class="room-head">
+          <div><div class="eyebrow"><span class="green-dot"></span> CONNECTED SESSION</div><h2>Ready to <em>transfer.</em></h2><p id="roomSubtitle">ห้องพร้อมใช้งาน</p></div>
+          <button class="button ghost" id="leaveBtn">← ออกจากหน้านี้</button>
+        </div>
+        <div class="room-grid">
+          <article class="panel room-details">
+            <div class="room-top"><h3>รายละเอียดห้อง</h3><span id="roleBadge" class="chip">OWNER</span></div>
+            <div class="room-code-wrap"><span>ROOM CODE</span><div class="inline-code"><strong id="activeCode">--------</strong><button class="mini-btn" id="copyCodeBtn" title="Copy room code">คัดลอก</button></div></div>
+            <div id="ownerOnly" class="owner-only"><span class="field-caption">SECURITY PIN</span><div class="inline-code pin-code"><strong id="activePin">••••••</strong><button class="mini-btn" id="copyPinBtn">คัดลอก</button><button class="mini-btn" id="rotateBtn">เปลี่ยน PIN</button></div></div>
+            <div class="qr-and-link"><div class="qr-card"><img id="roomQr" alt="QR สำหรับเปิดหน้าห้อง" width="160" height="160"><span>SCAN TO JOIN</span></div><div class="share-column"><span class="field-caption">SHARE LINK</span><div class="share-url" id="shareLink">กำลังโหลด...</div><button class="button secondary wide" id="copyLinkBtn">⧉ คัดลอกลิงก์</button><p>ผู้เข้าร่วมต้องกรอก PIN ด้วยเสมอ<br>อย่าแชร์ PIN ในที่สาธารณะ</p></div></div>
+            <div class="expiry-box">◷ <span id="expiresText">ห้องจะหมดอายุภายใน 60 นาที</span></div>
+            <button id="closeRoomBtn" class="button danger wide owner-only">ปิดห้องและลบไฟล์ทั้งหมด</button>
+          </article>
+          <article class="panel upload-panel">
+            <div class="room-top"><h3>ส่งไฟล์</h3><span class="chip subtle">UPLOAD</span></div>
+            <input id="fileInput" type="file" multiple hidden>
+            <div id="dropZone" class="dropzone" role="button" tabindex="0" aria-label="เลือกไฟล์สำหรับอัปโหลด"><div class="upload-icon">⇧</div><strong>ลากไฟล์มาวางที่นี่</strong><p>หรือกดเพื่อเลือกไฟล์จากอุปกรณ์</p><span id="fileLimitLabel">สูงสุด 25 MB ต่อไฟล์</span></div>
+            <div id="progressBox" class="progress-box hidden"><div class="progress-top"><span id="progressName">กำลังส่ง...</span><b id="progressPct">0%</b></div><div class="meter"><div id="progressFill"></div></div></div>
+            <div class="capacity"><span>พื้นที่ในห้อง</span><strong id="roomCapacity">0 / 100 MB</strong></div>
+            <div class="meter faint"><div id="capacityFill"></div></div>
+          </article>
+        </div>
+        <article class="panel files-panel">
+          <div class="files-header"><div><h3>ไฟล์ที่แชร์ในห้อง <span id="fileCount" class="count">0</span></h3><p>อุปกรณ์ทุกเครื่องที่เข้าร่วมห้องนี้สามารถดาวน์โหลดได้</p></div><button id="refreshBtn" class="button ghost small">⟳ รีเฟรช</button></div>
+          <div id="fileList" class="file-list"><div class="empty-files">ยังไม่มีไฟล์ในห้อง ลองอัปโหลดไฟล์แรกเลย ✨</div></div>
+        </article>
+      </section>
+      <section class="bottom-info"><div><span>◈</span><strong>Private by design</strong><p>ต้องมีทั้งรหัสห้องและ PIN ก่อนเข้าถึงไฟล์</p></div><div><span>⌁</span><strong>Temporary storage</strong><p>เก็บไฟล์ชั่วคราวบนเซิร์ฟเวอร์และลบตามอายุห้อง</p></div><div><span>⚡</span><strong>Any browser</strong><p>ใช้งานผ่านเว็บไซต์ได้ทั้ง Windows, Android และ iPhone</p></div></section>
+    </main>
+    <footer><span>ZeroDrop Online · Open-source project</span><span>รุ่นทดลอง: ไฟล์ถูกส่งผ่านเซิร์ฟเวอร์ ไม่ใช่ E2E encryption · อย่าส่งข้อมูลที่อ่อนไหว</span></footer>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
