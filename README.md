@@ -88,3 +88,5 @@ Requests to authenticated routes require `Authorization: Bearer <session-token>`
 ## License
 
 MIT for original project files. Bundled QR code engine has separate copyright/license notices in `third_party/NOTICE.md` and `third_party/APACHE-2.0.txt`.
+
+ZeroDrop Online - Deployment update
